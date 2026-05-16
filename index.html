@@ -331,40 +331,6 @@
       box-shadow: 0 0 0 2px #e60000;
     }
 
-    /* File Upload for WhatsApp Media */
-    .file-upload-section {
-      background: #1e1e28;
-      border-radius: 28px;
-      padding: 15px 20px;
-      margin: 5px 0;
-    }
-
-    .file-upload-label {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: pointer;
-      color: #ddd;
-      font-size: 0.95rem;
-      padding: 8px 0;
-    }
-
-    .file-upload-label i {
-      font-size: 1.3rem;
-      color: #e60000;
-    }
-
-    #file-input {
-      display: none;
-    }
-
-    .selected-file {
-      font-size: 0.8rem;
-      color: #8aff80;
-      margin-top: 8px;
-      display: none;
-    }
-
     .delivery-options {
       background: #1e1e28;
       border-radius: 28px;
@@ -395,6 +361,32 @@
     .delivery-options .option-icon {
       width: 28px;
       font-size: 1.2rem;
+    }
+
+    /* WhatsApp Info Message */
+    .whatsapp-info {
+      background: rgba(37, 211, 102, 0.15);
+      border-left: 4px solid #25D366;
+      padding: 15px 18px;
+      border-radius: 16px;
+      margin: 10px 0;
+      display: none;
+    }
+
+    .whatsapp-info i {
+      color: #25D366;
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .whatsapp-info p {
+      color: #ddd;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .whatsapp-info strong {
+      color: #25D366;
     }
 
     .contact-form button {
@@ -580,7 +572,7 @@
   </div>
 </section>
 
-<!-- Contact Section with WhatsApp Media Support -->
+<!-- Contact Section -->
 <section id="contact-main">
   <div class="contact-wrapper" data-aos="fade-up">
     <div class="contact-grid">
@@ -620,18 +612,6 @@
           <input type="tel" id="phone" name="phone" placeholder="Phone number *" required />
           <textarea id="message" name="message" rows="4" placeholder="Tell us about your KRA, BRS or NSSF need..." required></textarea>
           
-          <!-- File Upload for WhatsApp Media -->
-          <div class="file-upload-section" id="file-upload-section" style="display: none;">
-            <label class="file-upload-label">
-              <i class="fa-solid fa-paperclip"></i>
-              <span>Attach file (image, PDF, document)</span>
-              <input type="file" id="file-input" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.jpg,.jpeg,.png,.gif">
-            </label>
-            <div class="selected-file" id="selected-file">
-              <i class="fa-solid fa-check-circle"></i> <span id="file-name"></span>
-            </div>
-          </div>
-          
           <!-- Delivery Option Selection -->
           <div class="delivery-options">
             <p style="color: #ccc; margin-bottom: 10px; font-size: 0.9rem;">📬 How do you want us to receive your message?</p>
@@ -644,14 +624,22 @@
               <span class="option-icon">💬</span> WhatsApp message (direct to our phone)
             </label>
           </div>
+
+          <!-- WhatsApp Info Message (shown when WhatsApp is selected) -->
+          <div class="whatsapp-info" id="whatsapp-info">
+            <p>
+              <i class="fab fa-whatsapp"></i> 
+              <strong>📎 For documents/images:</strong> After sending this message, 
+              please send your files directly in the WhatsApp chat. Our team will assist you there.
+            </p>
+          </div>
           
           <button type="submit" id="submitBtn">
             <i class="fa-regular fa-paper-plane"></i> Send Message
           </button>
         </form>
         <p style="color: #888; font-size: 0.75rem; text-align: center; margin-top: 15px;">
-          🔒 Your message is secure. Choose email or WhatsApp delivery.<br>
-          WhatsApp option allows you to attach images, PDFs, or documents!
+          🔒 Your message is secure. Choose email or WhatsApp delivery.
         </p>
       </div>
     </div>
@@ -678,37 +666,18 @@
   
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submitBtn');
-  const fileInput = document.getElementById('file-input');
-  const fileUploadSection = document.getElementById('file-upload-section');
   const deliveryRadios = document.querySelectorAll('input[name="delivery_method"]');
-  const selectedFileDiv = document.getElementById('selected-file');
-  const fileNameSpan = document.getElementById('file-name');
-  let selectedFile = null;
+  const whatsappInfo = document.getElementById('whatsapp-info');
   
-  // Show/hide file upload based on delivery method
+  // Show/hide WhatsApp info message based on delivery method
   deliveryRadios.forEach(radio => {
     radio.addEventListener('change', function() {
       if (this.value === 'whatsapp') {
-        fileUploadSection.style.display = 'block';
+        whatsappInfo.style.display = 'block';
       } else {
-        fileUploadSection.style.display = 'none';
-        selectedFile = null;
-        fileInput.value = '';
-        selectedFileDiv.style.display = 'none';
+        whatsappInfo.style.display = 'none';
       }
     });
-  });
-  
-  // Handle file selection
-  fileInput.addEventListener('change', function(e) {
-    if (this.files && this.files[0]) {
-      selectedFile = this.files[0];
-      fileNameSpan.textContent = selectedFile.name;
-      selectedFileDiv.style.display = 'block';
-    } else {
-      selectedFile = null;
-      selectedFileDiv.style.display = 'none';
-    }
   });
   
   // Show message function
@@ -726,28 +695,16 @@
     }, 8000);
   }
   
-  // WhatsApp send with media support
-  async function sendToWhatsApp(name, email, phone, message, file) {
+  // WhatsApp send function (text only)
+  async function sendToWhatsApp(name, email, phone, message) {
     const whatsappNumber = '254758288255';
-    let mediaText = '';
     
-    if (file) {
-      mediaText = `%0A%0A*Attached File:* ${encodeURIComponent(file.name)} (${(file.size / 1024).toFixed(1)} KB)%0A*Note:* File will need to be sent separately. Please check WhatsApp for the attachment.`;
-    }
-    
-    let formattedMessage = `*NEW MESSAGE FROM WEBSITE*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Message:* ${encodeURIComponent(message)}${mediaText}%0A%0A_Sent from ThreeJ's Enterprise website_`;
+    let formattedMessage = `*NEW MESSAGE FROM WEBSITE*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Message:* ${encodeURIComponent(message)}%0A%0A_Sent from ThreeJ's Enterprise website_`;
     
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${formattedMessage}`;
     
     // Open WhatsApp
     window.open(whatsappUrl, '_blank');
-    
-    // If there's a file, show instruction
-    if (file) {
-      setTimeout(() => {
-        alert(`📎 Please send the file "${file.name}" separately in the WhatsApp chat.`);
-      }, 1000);
-    }
     
     return true;
   }
@@ -799,15 +756,12 @@
     
     try {
       if (deliveryMethod === 'whatsapp') {
-        // Send via WhatsApp with file if selected
-        await sendToWhatsApp(name, email, phone, message, selectedFile);
-        showMessage('success', '💬 Opening WhatsApp... Please send the pre-filled message to complete delivery.');
+        // Send via WhatsApp (text only)
+        await sendToWhatsApp(name, email, phone, message);
+        showMessage('success', '💬 Opening WhatsApp... Please send the pre-filled message and any files directly in the chat.');
         
         // Reset form
         form.reset();
-        selectedFile = null;
-        fileInput.value = '';
-        selectedFileDiv.style.display = 'none';
       } else {
         // Send via Formspree
         const formData = new FormData();
