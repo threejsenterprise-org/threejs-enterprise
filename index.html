@@ -446,12 +446,6 @@
       margin-top: 10px;
     }
 
-    .g-recaptcha {
-      margin: 10px 0;
-      display: flex;
-      justify-content: center;
-    }
-
     footer {
       background: #03030a;
       color: #aaa;
@@ -483,10 +477,6 @@
       }
       .contact-wrapper {
         padding: 40px 25px;
-      }
-      .g-recaptcha {
-        transform: scale(0.85);
-        transform-origin: center;
       }
     }
 
@@ -655,19 +645,13 @@
             </label>
           </div>
           
-          <!-- reCAPTCHA with YOUR new keys -->
-          <div class="g-recaptcha" data-sitekey="6LcHE-OsAAAAAAAD5-OvaRlzydUW8YVJqHnRpgVvu"></div>
-          
           <button type="submit" id="submitBtn">
             <i class="fa-regular fa-paper-plane"></i> Send Message
           </button>
         </form>
         <p style="color: #888; font-size: 0.75rem; text-align: center; margin-top: 15px;">
           🔒 Your message is secure. Choose email or WhatsApp delivery.<br>
-          WhatsApp option allows you to attach images, PDFs, or documents!<br>
-          This site is protected by reCAPTCHA and the Google 
-          <a href="https://policies.google.com/privacy" style="color: #e60000;" target="_blank">Privacy Policy</a> and 
-          <a href="https://policies.google.com/terms" style="color: #e60000;" target="_blank">Terms of Service</a> apply.
+          WhatsApp option allows you to attach images, PDFs, or documents!
         </p>
       </div>
     </div>
@@ -689,7 +673,6 @@
 </div>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
   AOS.init({ once: true, offset: 30, duration: 700 });
   
@@ -741,16 +724,6 @@
     setTimeout(() => {
       msgDiv.remove();
     }, 8000);
-  }
-  
-  // Convert file to Base64 for WhatsApp
-  function fileToBase64(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
-    });
   }
   
   // WhatsApp send with media support
@@ -820,13 +793,6 @@
       return;
     }
     
-    // Check reCAPTCHA
-    const recaptchaResponse = grecaptcha.getResponse();
-    if (!recaptchaResponse) {
-      showMessage('error', '❌ Please complete the reCAPTCHA verification.');
-      return;
-    }
-    
     // Disable button during submission
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Processing...';
@@ -842,7 +808,6 @@
         selectedFile = null;
         fileInput.value = '';
         selectedFileDiv.style.display = 'none';
-        grecaptcha.reset();
       } else {
         // Send via Formspree
         const formData = new FormData();
@@ -856,7 +821,6 @@
         if (success) {
           showMessage('success', '✅ Message sent successfully via email! We will respond within 24 hours.');
           form.reset();
-          grecaptcha.reset();
         } else {
           showMessage('error', '❌ Failed to send message. Please try again or use WhatsApp option.');
         }
