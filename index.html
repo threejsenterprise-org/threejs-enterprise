@@ -331,7 +331,40 @@
       box-shadow: 0 0 0 2px #e60000;
     }
 
-    /* Delivery Options */
+    /* File Upload for WhatsApp Media */
+    .file-upload-section {
+      background: #1e1e28;
+      border-radius: 28px;
+      padding: 15px 20px;
+      margin: 5px 0;
+    }
+
+    .file-upload-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      color: #ddd;
+      font-size: 0.95rem;
+      padding: 8px 0;
+    }
+
+    .file-upload-label i {
+      font-size: 1.3rem;
+      color: #e60000;
+    }
+
+    #file-input {
+      display: none;
+    }
+
+    .selected-file {
+      font-size: 0.8rem;
+      color: #8aff80;
+      margin-top: 8px;
+      display: none;
+    }
+
     .delivery-options {
       background: #1e1e28;
       border-radius: 28px;
@@ -557,7 +590,7 @@
   </div>
 </section>
 
-<!-- Contact Section with WhatsApp Delivery Option -->
+<!-- Contact Section with WhatsApp Media Support -->
 <section id="contact-main">
   <div class="contact-wrapper" data-aos="fade-up">
     <div class="contact-grid">
@@ -597,6 +630,18 @@
           <input type="tel" id="phone" name="phone" placeholder="Phone number *" required />
           <textarea id="message" name="message" rows="4" placeholder="Tell us about your KRA, BRS or NSSF need..." required></textarea>
           
+          <!-- File Upload for WhatsApp Media -->
+          <div class="file-upload-section" id="file-upload-section" style="display: none;">
+            <label class="file-upload-label">
+              <i class="fa-solid fa-paperclip"></i>
+              <span>Attach file (image, PDF, document)</span>
+              <input type="file" id="file-input" accept="image/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.jpg,.jpeg,.png,.gif">
+            </label>
+            <div class="selected-file" id="selected-file">
+              <i class="fa-solid fa-check-circle"></i> <span id="file-name"></span>
+            </div>
+          </div>
+          
           <!-- Delivery Option Selection -->
           <div class="delivery-options">
             <p style="color: #ccc; margin-bottom: 10px; font-size: 0.9rem;">📬 How do you want us to receive your message?</p>
@@ -610,7 +655,8 @@
             </label>
           </div>
           
-          <div class="g-recaptcha" data-sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI"></div>
+          <!-- reCAPTCHA with YOUR new keys -->
+          <div class="g-recaptcha" data-sitekey="6LcHE-OsAAAAAAAD5-OvaRlzydUW8YVJqHnRpgVvu"></div>
           
           <button type="submit" id="submitBtn">
             <i class="fa-regular fa-paper-plane"></i> Send Message
@@ -618,6 +664,7 @@
         </form>
         <p style="color: #888; font-size: 0.75rem; text-align: center; margin-top: 15px;">
           🔒 Your message is secure. Choose email or WhatsApp delivery.<br>
+          WhatsApp option allows you to attach images, PDFs, or documents!<br>
           This site is protected by reCAPTCHA and the Google 
           <a href="https://policies.google.com/privacy" style="color: #e60000;" target="_blank">Privacy Policy</a> and 
           <a href="https://policies.google.com/terms" style="color: #e60000;" target="_blank">Terms of Service</a> apply.
@@ -648,14 +695,43 @@
   
   const form = document.getElementById('contact-form');
   const submitBtn = document.getElementById('submitBtn');
+  const fileInput = document.getElementById('file-input');
+  const fileUploadSection = document.getElementById('file-upload-section');
+  const deliveryRadios = document.querySelectorAll('input[name="delivery_method"]');
+  const selectedFileDiv = document.getElementById('selected-file');
+  const fileNameSpan = document.getElementById('file-name');
+  let selectedFile = null;
+  
+  // Show/hide file upload based on delivery method
+  deliveryRadios.forEach(radio => {
+    radio.addEventListener('change', function() {
+      if (this.value === 'whatsapp') {
+        fileUploadSection.style.display = 'block';
+      } else {
+        fileUploadSection.style.display = 'none';
+        selectedFile = null;
+        fileInput.value = '';
+        selectedFileDiv.style.display = 'none';
+      }
+    });
+  });
+  
+  // Handle file selection
+  fileInput.addEventListener('change', function(e) {
+    if (this.files && this.files[0]) {
+      selectedFile = this.files[0];
+      fileNameSpan.textContent = selectedFile.name;
+      selectedFileDiv.style.display = 'block';
+    } else {
+      selectedFile = null;
+      selectedFileDiv.style.display = 'none';
+    }
+  });
   
   // Show message function
   function showMessage(type, text) {
-    // Remove any existing messages
-    const existingSuccess = document.querySelector('.formspree-success, .whatsapp-success');
-    const existingError = document.querySelector('.formspree-error, .whatsapp-error');
-    if (existingSuccess) existingSuccess.remove();
-    if (existingError) existingError.remove();
+    const existingMsgs = document.querySelectorAll('.formspree-success, .formspree-error, .whatsapp-success, .whatsapp-error');
+    existingMsgs.forEach(msg => msg.remove());
     
     const msgDiv = document.createElement('div');
     msgDiv.className = type === 'success' ? 'formspree-success' : 'formspree-error';
@@ -664,15 +740,42 @@
     
     setTimeout(() => {
       msgDiv.remove();
-    }, 6000);
+    }, 8000);
   }
   
-  // WhatsApp send function
-  function sendToWhatsApp(name, email, phone, message) {
-    const whatsappNumber = '254758288255'; // Your WhatsApp number
-    const formattedMessage = `*NEW MESSAGE FROM WEBSITE*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Message:* ${encodeURIComponent(message)}%0A%0A_Sent from ThreeJ's Enterprise website_`;
+  // Convert file to Base64 for WhatsApp
+  function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+  
+  // WhatsApp send with media support
+  async function sendToWhatsApp(name, email, phone, message, file) {
+    const whatsappNumber = '254758288255';
+    let mediaText = '';
+    
+    if (file) {
+      mediaText = `%0A%0A*Attached File:* ${encodeURIComponent(file.name)} (${(file.size / 1024).toFixed(1)} KB)%0A*Note:* File will need to be sent separately. Please check WhatsApp for the attachment.`;
+    }
+    
+    let formattedMessage = `*NEW MESSAGE FROM WEBSITE*%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Email:* ${encodeURIComponent(email)}%0A*Phone:* ${encodeURIComponent(phone)}%0A*Message:* ${encodeURIComponent(message)}${mediaText}%0A%0A_Sent from ThreeJ's Enterprise website_`;
+    
     const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${formattedMessage}`;
+    
+    // Open WhatsApp
     window.open(whatsappUrl, '_blank');
+    
+    // If there's a file, show instruction
+    if (file) {
+      setTimeout(() => {
+        alert(`📎 Please send the file "${file.name}" separately in the WhatsApp chat.`);
+      }, 1000);
+    }
+    
     return true;
   }
   
@@ -730,12 +833,15 @@
     
     try {
       if (deliveryMethod === 'whatsapp') {
-        // Send via WhatsApp
-        sendToWhatsApp(name, email, phone, message);
+        // Send via WhatsApp with file if selected
+        await sendToWhatsApp(name, email, phone, message, selectedFile);
         showMessage('success', '💬 Opening WhatsApp... Please send the pre-filled message to complete delivery.');
         
         // Reset form
         form.reset();
+        selectedFile = null;
+        fileInput.value = '';
+        selectedFileDiv.style.display = 'none';
         grecaptcha.reset();
       } else {
         // Send via Formspree
