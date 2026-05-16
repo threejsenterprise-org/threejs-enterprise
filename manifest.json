@@ -1,0 +1,47 @@
+{
+  "name": "ThreeJ's Enterprise",
+  "short_name": "ThreeJs",
+  "description": "Professional KRA PIN registration, tax returns filing, BRS business registration, and NSSF services in Kenya",
+  "start_url": "/threejs-enterprise/",
+  "display": "standalone",
+  "theme_color": "#e60000",
+  "background_color": "#ffffff",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://threejsenterprise-org.github.io/threejs-enterprise/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png"
+    },
+    {
+      "src": "https://threejsenterprise-org.github.io/threejs-enterprise/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "https://threejsenterprise-org.github.io/threejs-enterprise/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "https://threejsenterprise-org.github.io/threejs-enterprise/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "https://threejsenterprise-org.github.io/threejs-enterprise/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "https://threejsenterprise-org.github.io/threejs-enterprise/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://threejsenterprise-org.github.io/threejs-enterprise/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
