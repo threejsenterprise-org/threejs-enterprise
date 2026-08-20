@@ -3,22 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>ThreeJ's Enterprise | KRA • BRS • NSSF • Web Dev</title>
+  <title>ThreeJ's Enterprise | KRA • BRS • NSSF • AGPO • Passport • Web Dev</title>
 
-  <!-- PWA / SEO / Meta (unchanged) -->
+  <!-- PWA / Meta / SEO -->
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#e60000" id="theme-color-meta">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="ThreeJ's Enterprise">
 
-  <meta name="description" content="Professional KRA PIN registration, tax returns, BRS, NSSF & web development in Kenya. Fast, reliable, and affordable." />
-  <meta name="keywords" content="KRA PIN registration Kenya, tax returns filing, BRS services, NSSF registration, web development Kenya" />
+  <meta name="description" content="Professional KRA PIN, tax obligations (VAT, PAYE), BRS, AGPO, passport, NSSF & web development services in Kenya. Fast, reliable, and transparent." />
+  <meta name="keywords" content="KRA PIN registration, VAT obligation, PAYE obligation, AGPO application, passport application, BRS business registration, NSSF services, web development Kenya" />
   <meta name="author" content="ThreeJ's Enterprise" />
 
   <meta property="og:title" content="ThreeJ's Enterprise" />
-  <meta property="og:description" content="KRA PIN, Tax Returns, BRS, NSSF & Web Development Services" />
-  <meta property="og:image" content="https://threejsenterprise-org.github.io/threejs-enterprise/logo.png" />
+  <meta property="og:description" content="KRA PIN, Tax (VAT/PAYE), BRS, AGPO, Passport, NSSF & Web Development Services" />
+  <meta property="og:image" content="https://i.postimg.cc/bsh4pXpL/fc8149eb-8828-409d-a637-9ac10b5e42e1.jpg" />
   <meta property="og:image:width" content="512" />
   <meta property="og:image:height" content="512" />
   <meta property="og:url" content="https://threejsenterprise-org.github.io/threejs-enterprise/" />
@@ -26,8 +26,8 @@
 
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="ThreeJ's Enterprise" />
-  <meta name="twitter:description" content="KRA PIN, Tax Returns, BRS, NSSF & Web Development in Kenya" />
-  <meta name="twitter:image" content="https://threejsenterprise-org.github.io/threejs-enterprise/logo.png" />
+  <meta name="twitter:description" content="KRA PIN, Tax (VAT/PAYE), BRS, AGPO, Passport, NSSF & Web Development in Kenya" />
+  <meta name="twitter:image" content="https://i.postimg.cc/bsh4pXpL/fc8149eb-8828-409d-a637-9ac10b5e42e1.jpg" />
 
   <script type="application/ld+json">
   {
@@ -35,9 +35,9 @@
     "@type": "Organization",
     "name": "ThreeJ's Enterprise",
     "url": "https://threejsenterprise-org.github.io/threejs-enterprise/",
-    "logo": "https://threejsenterprise-org.github.io/threejs-enterprise/logo.png",
-    "image": "https://threejsenterprise-org.github.io/threejs-enterprise/logo.png",
-    "description": "Professional KRA PIN registration, tax returns, BRS, NSSF & web development in Kenya",
+    "logo": "https://i.postimg.cc/bsh4pXpL/fc8149eb-8828-409d-a637-9ac10b5e42e1.jpg",
+    "image": "https://i.postimg.cc/bsh4pXpL/fc8149eb-8828-409d-a637-9ac10b5e42e1.jpg",
+    "description": "Professional KRA PIN, VAT, PAYE, BRS, AGPO, Passport, NSSF & web development services in Kenya",
     "telephone": "+254758288253",
     "email": "threejsenterprise@gmail.com",
     "address": {
@@ -60,7 +60,7 @@
   <noscript><link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"></noscript>
 
   <style>
-    /* ===== CSS Variables (modernised) ===== */
+    /* ===== CSS Variables ===== */
     :root {
       --bg-body: #f5f7fa;
       --text-primary: #1a1a2e;
@@ -364,7 +364,6 @@
         background: linear-gradient(125deg, #0b0b16 0%, #0b0b16 45%, #cc0000 45%, #800000 100%);
       }
     }
-    /* Floating shapes */
     header::before,
     header::after {
       content: '';
@@ -481,8 +480,13 @@
       border-left: 4px solid var(--primary);
       padding-left: 18px;
     }
+    .hero-card ul {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+    }
     .hero-card ul li {
-      margin: 18px 0;
+      margin: 6px 0;
       display: flex;
       align-items: center;
       gap: 14px;
@@ -512,10 +516,10 @@
       margin: 0 auto;
     }
 
-    /* ===== Services (5 cards, Web Dev triggers modal) ===== */
+    /* ===== SERVICES with expandable requirements ===== */
     .services {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
     }
     .service-card {
@@ -523,61 +527,99 @@
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       border: 1px solid var(--border-color);
-      padding: 36px 24px;
+      padding: 30px 24px 20px;
       border-radius: 32px;
       box-shadow: var(--card-shadow);
       transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1);
-      text-align: center;
+      text-align: left;
       position: relative;
       overflow: hidden;
-      cursor: default;
+      display: flex;
+      flex-direction: column;
     }
-    .service-card:not(:last-child) { cursor: default; }
-    .service-card:last-child { cursor: pointer; }  /* Web Dev card is clickable */
-    .service-card::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, var(--primary-light), transparent 60%);
-      opacity: 0;
-      transition: opacity 0.5s;
-      border-radius: 32px;
-      pointer-events: none;
-    }
-    .service-card:hover::after { opacity: 1; }
     .service-card:hover {
-      transform: translateY(-12px) scale(1.02);
+      transform: translateY(-8px);
       box-shadow: var(--card-shadow-hover);
       border-color: var(--primary);
     }
-    .service-card > * { position: relative; z-index: 2; }
-    .service-card i {
-      font-size: 3.4rem;
+    .service-card .icon {
+      font-size: 2.8rem;
       background: var(--primary-gradient);
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      margin-bottom: 20px;
+      margin-bottom: 12px;
       display: inline-block;
-      transition: transform 0.3s;
     }
-    .service-card:hover i { transform: scale(1.08); }
     .service-card h3 {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
-      margin-bottom: 14px;
+      margin-bottom: 8px;
       color: var(--text-primary);
     }
-    .service-card p {
+    .service-card .brief {
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.5;
       font-size: 0.95rem;
+      margin-bottom: 16px;
+      flex-grow: 1;
+    }
+    .service-card .requirements-toggle {
+      background: none;
+      border: none;
+      color: var(--primary);
+      font-weight: 600;
+      cursor: pointer;
+      padding: 6px 0;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: 0.2s;
+      align-self: flex-start;
+    }
+    .service-card .requirements-toggle:hover {
+      color: var(--primary-dark);
+    }
+    .service-card .requirements-toggle i {
+      transition: transform 0.3s;
+    }
+    .service-card .requirements-toggle.open i {
+      transform: rotate(180deg);
+    }
+    .service-card .requirements-list {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease, padding 0.3s ease;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+    .service-card .requirements-list.open {
+      max-height: 600px;
+      padding-top: 16px;
+      padding-bottom: 4px;
+    }
+    .service-card .requirements-list li {
+      padding: 6px 0 6px 24px;
+      position: relative;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      line-height: 1.4;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .service-card .requirements-list li:last-child {
+      border-bottom: none;
+    }
+    .service-card .requirements-list li::before {
+      content: "•";
+      position: absolute;
+      left: 4px;
+      color: var(--primary);
+      font-weight: bold;
     }
 
-    /* ===== Contact ===== */
+    /* ===== Contact (unchanged) ===== */
     .contact-wrapper {
       background: var(--contact-wrapper-bg);
       backdrop-filter: blur(8px);
@@ -797,7 +839,27 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== WEB DEV INQUIRY MODAL ===== */
+    @media (max-width: 950px) {
+      header {
+        flex-direction: column;
+        text-align: center;
+        background: linear-gradient(135deg, #fff 0%, #fff 60%, var(--primary) 60%, var(--primary-dark) 100%);
+      }
+      .hero-text { text-align: center; }
+      .btn-group { justify-content: center; }
+      .hero-card { width: 100%; max-width: 450px; margin: 0 auto; }
+      .section-title h2 { font-size: 2.4rem; }
+      .contact-wrapper { padding: 40px 25px; }
+    }
+    @media (max-width: 480px) {
+      .hero-text h1 { font-size: 2.8rem; }
+      .hero-text h2 { font-size: 1.3rem; }
+      .btn { font-size: 0.9rem; padding: 12px 24px; }
+      .service-card { padding: 20px 16px; }
+      .service-card .requirements-list li { font-size: 0.8rem; }
+    }
+
+    /* ===== WEB DEV INQUIRY MODAL (unchanged) ===== */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -925,7 +987,6 @@
     .modal .modal-actions .btn-secondary-modal:hover {
       background: var(--bg-card-hover);
     }
-
     @media (max-width: 480px) {
       .modal { padding: 30px 20px; }
       .modal .radio-group { flex-direction: column; gap: 8px; }
@@ -939,7 +1000,7 @@
 <nav class="navbar" role="navigation" aria-label="Main navigation">
   <div class="nav-container">
     <a href="#" class="logo" aria-label="ThreeJ's Enterprise Home">
-      <img src="logo.png" alt="ThreeJ's Enterprise Logo" class="logo-img" loading="lazy" decoding="async">
+      <img src="https://i.postimg.cc/bsh4pXpL/fc8149eb-8828-409d-a637-9ac10b5e42e1.jpg" alt="ThreeJ's Enterprise Logo" class="logo-img" loading="lazy" decoding="async">
       <span class="logo-text">ThreeJ's Enterprise</span>
     </a>
     <div class="mobile-menu" aria-label="Toggle menu" role="button" tabindex="0">
@@ -962,11 +1023,10 @@
 <header id="home">
   <div class="hero-text" data-aos="fade-right">
     <h1>ThreeJ's Enterprise</h1>
-    <h2>KRA • BRS • NSSF • Web Development</h2>
+    <h2>KRA • BRS • NSSF • AGPO • Passport • Web Dev</h2>
     <p>
-      Your trusted partner for compliance, business registration, and digital growth.  
-      Fast, accurate, and transparent assistance — from KRA PIN registration to  
-      custom websites that drive your business forward.
+      Your one‑stop partner for compliance, government applications, and digital growth.<br>
+      Fast, accurate, and transparent assistance – from KRA PIN to passport, AGPO to web development.
     </p>
     <div class="btn-group">
       <a href="tel:+254758288253" class="btn btn-primary">
@@ -982,8 +1042,10 @@
     <h3>We Handle It All</h3>
     <ul>
       <li><i class="fa-regular fa-circle-check"></i> KRA PIN Registration</li>
-      <li><i class="fa-regular fa-circle-check"></i> Annual Tax Returns</li>
+      <li><i class="fa-regular fa-circle-check"></i> VAT / PAYE Obligations</li>
       <li><i class="fa-regular fa-circle-check"></i> Business Registration (BRS)</li>
+      <li><i class="fa-regular fa-circle-check"></i> AGPO Application</li>
+      <li><i class="fa-regular fa-circle-check"></i> Passport Application</li>
       <li><i class="fa-regular fa-circle-check"></i> NSSF & eCitizen</li>
       <li><i class="fa-regular fa-circle-check"></i> Web Development</li>
     </ul>
@@ -993,41 +1055,131 @@
 <!-- ========== SERVICES ========== -->
 <section id="services" aria-labelledby="services-title">
   <div class="section-title" data-aos="fade-up">
-    <h2 id="services-title">Premium Assistance</h2>
-    <p>Tailored for individuals, startups, and growing enterprises</p>
+    <h2 id="services-title">Complete Service Portfolio</h2>
+    <p>Click <strong>“View Requirements”</strong> to see exactly what you need to provide for each service.</p>
   </div>
-  <div class="services">
+  <div class="services" id="servicesContainer">
+    <!-- Service 1: KRA PIN Registration -->
     <div class="service-card" data-aos="zoom-in">
-      <i class="fa-solid fa-id-card"></i>
+      <span class="icon"><i class="fa-solid fa-id-card"></i></span>
       <h3>KRA PIN Registration</h3>
-      <p>Instant PIN acquisition, updates for minors, foreign nationals, and companies. Fast turnaround & full support.</p>
+      <p class="brief">Get your KRA PIN quickly for individuals, minors, foreign nationals, and companies.</p>
+      <button class="requirements-toggle" onclick="toggleRequirements(this)">View Requirements <i class="fas fa-chevron-down"></i></button>
+      <ul class="requirements-list">
+        <li>Registration Certificate (Business Name/Incorporation)</li>
+        <li>CR 12 &amp; 13 (For Limited &amp; Partnership)</li>
+        <li>Directors' PIN &amp; compliance cert</li>
+        <li>Request Letter</li>
+        <li>Sample of an invoice</li>
+        <li>Directors ID copies</li>
+        <li>Company's PIN and Compliance</li>
+      </ul>
     </div>
+
+    <!-- Service 2: VAT Obligation -->
     <div class="service-card" data-aos="zoom-in" data-aos-delay="100">
-      <i class="fa-solid fa-file-invoice-dollar"></i>
-      <h3>Tax Returns Filing</h3>
-      <p>Individual & business income tax, rental income, and VAT returns. We ensure penalty‑free filing.</p>
+      <span class="icon"><i class="fa-solid fa-receipt"></i></span>
+      <h3>VAT Obligation</h3>
+      <p class="brief">Register for Value Added Tax (VAT) and stay compliant with KRA requirements.</p>
+      <button class="requirements-toggle" onclick="toggleRequirements(this)">View Requirements <i class="fas fa-chevron-down"></i></button>
+      <ul class="requirements-list">
+        <li>Registration Certificate (Business Name/Incorporation)</li>
+        <li>CR 12 &amp; 13 (For Limited &amp; Partnership)</li>
+        <li>Directors' PIN &amp; compliance cert</li>
+        <li>Request Letter</li>
+        <li>Sample of an invoice</li>
+        <li>Directors ID copies</li>
+        <li>Company's PIN and Compliance</li>
+      </ul>
     </div>
+
+    <!-- Service 3: PAYE Obligation -->
     <div class="service-card" data-aos="zoom-in" data-aos-delay="200">
-      <i class="fa-solid fa-building-user"></i>
-      <h3>BRS Services</h3>
-      <p>Business name reservation, company incorporation, CR12, and post‑registration compliance support.</p>
+      <span class="icon"><i class="fa-solid fa-users"></i></span>
+      <h3>PAYE Obligation</h3>
+      <p class="brief">Register for Pay As You Earn (PAYE) to handle employee tax deductions properly.</p>
+      <button class="requirements-toggle" onclick="toggleRequirements(this)">View Requirements <i class="fas fa-chevron-down"></i></button>
+      <ul class="requirements-list">
+        <li>Registration Certificate (Business Name/Incorporation)</li>
+        <li>CR 12 &amp; 13 (For Limited &amp; Partnership)</li>
+        <li>Directors' PIN &amp; compliance cert (For Limited/Partnership)</li>
+        <li>Request Letter</li>
+        <li>Directors ID copies</li>
+        <li>Company's PIN and Compliance (For Limited)</li>
+      </ul>
     </div>
+
+    <!-- Service 4: Business Name Registration / Company -->
     <div class="service-card" data-aos="zoom-in" data-aos-delay="300">
-      <i class="fa-solid fa-hand-holding-heart"></i>
-      <h3>NSSF & eCitizen</h3>
-      <p>NSSF registration, employer contributions, and eCitizen account setup & assistance.</p>
+      <span class="icon"><i class="fa-solid fa-building"></i></span>
+      <h3>Business Name Registration / Company</h3>
+      <p class="brief">Register your business name or incorporate a company with BRS.</p>
+      <button class="requirements-toggle" onclick="toggleRequirements(this)">View Requirements <i class="fas fa-chevron-down"></i></button>
+      <ul class="requirements-list">
+        <li>Active eCitizen account</li>
+        <li>Three proposed names in order of priority</li>
+        <li>Passport photo</li>
+        <li>Directors/Proprietors ID copies</li>
+        <li>Office phone number and Email</li>
+      </ul>
     </div>
-    <!-- Web Development Card – clickable to open modal -->
-    <div class="service-card" data-aos="zoom-in" data-aos-delay="400" id="webDevCard">
-      <i class="fa-solid fa-code"></i>
+
+    <!-- Service 5: AGPO Application -->
+    <div class="service-card" data-aos="zoom-in" data-aos-delay="400">
+      <span class="icon"><i class="fa-solid fa-handshake"></i></span>
+      <h3>AGPO Application</h3>
+      <p class="brief">Apply for the Access Government Procurement Opportunities (AGPO) programme.</p>
+      <button class="requirements-toggle" onclick="toggleRequirements(this)">View Requirements <i class="fas fa-chevron-down"></i></button>
+      <ul class="requirements-list">
+        <li>Registration Certificate (Business Name / Incorporation)</li>
+        <li>PIN and the compliance cert</li>
+        <li>Active email address</li>
+        <li>Directors/Proprietors ID copies</li>
+      </ul>
+    </div>
+
+    <!-- Service 6: Passport Application -->
+    <div class="service-card" data-aos="zoom-in" data-aos-delay="500">
+      <span class="icon"><i class="fa-solid fa-passport"></i></span>
+      <h3>Passport Application</h3>
+      <p class="brief">Assistance with Kenyan passport applications – fast and hassle‑free.</p>
+      <button class="requirements-toggle" onclick="toggleRequirements(this)">View Requirements <i class="fas fa-chevron-down"></i></button>
+      <ul class="requirements-list">
+        <li>Active eCitizen account</li>
+        <li>Applicant original ID / birth certificate</li>
+        <li>Applicant's 3 passport photos</li>
+        <li>Parents ID copies / Death certificates</li>
+        <li>Referees / next of kin ID copy</li>
+        <li>Contact addresses (Telephone &amp; Email)</li>
+      </ul>
+    </div>
+
+    <!-- Service 7: NSSF & eCitizen -->
+    <div class="service-card" data-aos="zoom-in" data-aos-delay="600">
+      <span class="icon"><i class="fa-solid fa-shield"></i></span>
+      <h3>NSSF &amp; eCitizen</h3>
+      <p class="brief">NSSF registration, employer contributions, and eCitizen account setup.</p>
+      <button class="requirements-toggle" onclick="toggleRequirements(this)">View Requirements <i class="fas fa-chevron-down"></i></button>
+      <ul class="requirements-list">
+        <li>Registration Certificate (Business Name/Incorporation)</li>
+        <li>PIN and compliance cert</li>
+        <li>Directors/Proprietors ID copies</li>
+        <li>Active eCitizen account (for eCitizen services)</li>
+        <li>Contact details (phone &amp; email)</li>
+      </ul>
+    </div>
+
+    <!-- Service 8: Web Development -->
+    <div class="service-card" data-aos="zoom-in" data-aos-delay="700" id="webDevCard">
+      <span class="icon"><i class="fa-solid fa-code"></i></span>
       <h3>Web Development</h3>
-      <p>Modern, mobile‑friendly websites, landing pages, and e‑commerce solutions – tailored to your brand.</p>
-      <p style="font-size:0.8rem; margin-top:8px; color:var(--primary);"><i class="fa-regular fa-hand-pointer"></i> Click to start your project inquiry</p>
+      <p class="brief">Modern, mobile‑friendly websites, landing pages, and e‑commerce solutions.</p>
+      <button class="requirements-toggle" onclick="openWebDevModal()">Start Project Inquiry <i class="fas fa-arrow-right"></i></button>
     </div>
   </div>
 </section>
 
-<!-- ========== CONTACT ========== -->
+<!-- ========== CONTACT (unchanged) ========== -->
 <section id="contact-main" aria-labelledby="contact-title">
   <div class="contact-wrapper" data-aos="fade-up">
     <div class="contact-grid">
@@ -1063,7 +1215,7 @@
           <input type="text" id="name" placeholder="Full name *" required aria-label="Full name" />
           <input type="email" id="email" placeholder="Email address *" required aria-label="Email" />
           <input type="tel" id="phone" placeholder="Phone number *" required aria-label="Phone number" />
-          <textarea id="message" rows="4" placeholder="Tell us about your KRA, BRS, NSSF or Web Development need..." required aria-label="Message"></textarea>
+          <textarea id="message" rows="4" placeholder="Tell us about your KRA, BRS, NSSF, AGPO, Passport or Web Development need..." required aria-label="Message"></textarea>
 
           <div class="delivery-options">
             <p style="color: var(--contact-text); margin-bottom: 10px; font-size: 0.9rem;">📬 How do you want us to receive your message?</p>
@@ -1097,7 +1249,7 @@
   </div>
 </section>
 
-<!-- ========== WEB DEV INQUIRY MODAL ========== -->
+<!-- ========== WEB DEV INQUIRY MODAL (unchanged) ========== -->
 <div class="modal-overlay" id="webDevModal">
   <div class="modal">
     <button class="close-btn" id="closeModal">&times;</button>
@@ -1183,7 +1335,7 @@
 
 <!-- ========== FOOTER ========== -->
 <footer>
-  <p>© 2026 ThreeJ's Enterprise — Professional KRA, BRS, NSSF & Web Development Services. All rights reserved.</p>
+  <p>© 2026 ThreeJ's Enterprise — Professional KRA, Tax, BRS, AGPO, Passport, NSSF & Web Development Services. All rights reserved.</p>
   <p style="margin-top: 12px; font-size: 0.8rem;">📍 Reliable, fast & confidential | Serving individuals & corporate clients</p>
 </footer>
 
@@ -1251,6 +1403,105 @@
     });
     document.querySelectorAll('.nav-menu a').forEach(link => {
       link.addEventListener('click', () => navMenu.classList.remove('active'));
+    });
+
+    // ---- Toggle requirements lists ----
+    window.toggleRequirements = function(btn) {
+      const list = btn.nextElementSibling;
+      const icon = btn.querySelector('i');
+      list.classList.toggle('open');
+      btn.classList.toggle('open');
+      icon.classList.toggle('fa-chevron-down');
+      icon.classList.toggle('fa-chevron-up');
+      if (list.classList.contains('open')) {
+        btn.innerHTML = 'Hide Requirements <i class="fas fa-chevron-up"></i>';
+      } else {
+        btn.innerHTML = 'View Requirements <i class="fas fa-chevron-down"></i>';
+      }
+    };
+
+    // ---- Web Dev Modal ----
+    const modal = document.getElementById('webDevModal');
+    const webDevCard = document.getElementById('webDevCard');
+    const closeModal = document.getElementById('closeModal');
+    const cancelBtn = document.getElementById('wdCancelBtn');
+    const submitWebDev = document.getElementById('wdSubmitBtn');
+
+    window.openWebDevModal = function() {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    function closeModalFn() {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    webDevCard.addEventListener('click', function(e) {
+      // Only trigger if the click is not on the button (the button has its own handler)
+      if (!e.target.closest('.requirements-toggle')) {
+        openWebDevModal();
+      }
+    });
+
+    closeModal.addEventListener('click', closeModalFn);
+    cancelBtn.addEventListener('click', closeModalFn);
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModalFn();
+    });
+
+    submitWebDev.addEventListener('click', function() {
+      const name = document.getElementById('wd_name').value.trim();
+      const email = document.getElementById('wd_email').value.trim();
+      const phone = document.getElementById('wd_phone').value.trim();
+      const type = document.getElementById('wd_type').value;
+      const features = Array.from(document.querySelectorAll('#webDevForm .checkbox-group input:checked'))
+                            .map(cb => cb.value).join(', ');
+      const timeline = document.getElementById('wd_timeline').value;
+      const budget = document.getElementById('wd_budget').value;
+      const details = document.getElementById('wd_message').value.trim();
+      const delivery = document.querySelector('input[name="wd_delivery"]:checked').value;
+
+      if (!name || !email || !phone || !type || !timeline) {
+        alert('Please fill in all required fields (Name, Email, Phone, Project Type, Timeline).');
+        return;
+      }
+
+      let message = `*Web Development Inquiry*%0A%0A`;
+      message += `*Name:* ${encodeURIComponent(name)}%0A`;
+      message += `*Email:* ${encodeURIComponent(email)}%0A`;
+      message += `*Phone:* ${encodeURIComponent(phone)}%0A%0A`;
+      message += `*Project Type:* ${encodeURIComponent(type)}%0A`;
+      message += `*Features:* ${encodeURIComponent(features || 'None specified')}%0A`;
+      message += `*Timeline:* ${encodeURIComponent(timeline)}%0A`;
+      message += `*Budget:* ${encodeURIComponent(budget || 'Not specified')}%0A%0A`;
+      message += `*Additional Details:*%0A${encodeURIComponent(details || 'No extra details provided.')}`;
+
+      if (delivery === 'whatsapp') {
+        window.open(`https://wa.me/254758288253?text=${message}`, '_blank');
+        closeModalFn();
+      } else {
+        const fd = new FormData();
+        fd.append('name', name);
+        fd.append('email', email);
+        fd.append('phone', phone);
+        fd.append('message', `Web Dev Inquiry\nProject Type: ${type}\nFeatures: ${features}\nTimeline: ${timeline}\nBudget: ${budget}\nDetails: ${details}`);
+        fetch('https://formspree.io/f/mvzlezpg', {
+          method: 'POST',
+          body: fd,
+          headers: { 'Accept': 'application/json' }
+        })
+        .then(res => {
+          if (res.ok) {
+            alert('✅ Your web development inquiry has been sent via email! We will contact you shortly.');
+            closeModalFn();
+            document.getElementById('webDevForm').reset();
+          } else {
+            alert('❌ Failed to send. Please try again or use WhatsApp.');
+          }
+        })
+        .catch(() => alert('❌ Network error. Please try again later.'));
+      }
     });
 
     // ---- Main contact form ----
@@ -1331,88 +1582,6 @@
       }
     });
 
-    // ---- Web Dev Modal ----
-    const modal = document.getElementById('webDevModal');
-    const webDevCard = document.getElementById('webDevCard');
-    const closeModal = document.getElementById('closeModal');
-    const cancelBtn = document.getElementById('wdCancelBtn');
-    const submitWebDev = document.getElementById('wdSubmitBtn');
-
-    function openModal() {
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModalFn() {
-      modal.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    webDevCard.addEventListener('click', openModal);
-    closeModal.addEventListener('click', closeModalFn);
-    cancelBtn.addEventListener('click', closeModalFn);
-    modal.addEventListener('click', function(e) {
-      if (e.target === modal) closeModalFn();
-    });
-
-    submitWebDev.addEventListener('click', function() {
-      // Gather data
-      const name = document.getElementById('wd_name').value.trim();
-      const email = document.getElementById('wd_email').value.trim();
-      const phone = document.getElementById('wd_phone').value.trim();
-      const type = document.getElementById('wd_type').value;
-      const features = Array.from(document.querySelectorAll('#webDevForm .checkbox-group input:checked'))
-                            .map(cb => cb.value).join(', ');
-      const timeline = document.getElementById('wd_timeline').value;
-      const budget = document.getElementById('wd_budget').value;
-      const details = document.getElementById('wd_message').value.trim();
-      const delivery = document.querySelector('input[name="wd_delivery"]:checked').value;
-
-      // Basic validation
-      if (!name || !email || !phone || !type || !timeline) {
-        alert('Please fill in all required fields (Name, Email, Phone, Project Type, Timeline).');
-        return;
-      }
-
-      // Build message
-      let message = `*Web Development Inquiry*%0A%0A`;
-      message += `*Name:* ${encodeURIComponent(name)}%0A`;
-      message += `*Email:* ${encodeURIComponent(email)}%0A`;
-      message += `*Phone:* ${encodeURIComponent(phone)}%0A%0A`;
-      message += `*Project Type:* ${encodeURIComponent(type)}%0A`;
-      message += `*Features:* ${encodeURIComponent(features || 'None specified')}%0A`;
-      message += `*Timeline:* ${encodeURIComponent(timeline)}%0A`;
-      message += `*Budget:* ${encodeURIComponent(budget || 'Not specified')}%0A%0A`;
-      message += `*Additional Details:*%0A${encodeURIComponent(details || 'No extra details provided.')}`;
-
-      if (delivery === 'whatsapp') {
-        const waUrl = `https://wa.me/254758288253?text=${message}`;
-        window.open(waUrl, '_blank');
-        closeModalFn();
-      } else {
-        // Send via email (Formspree)
-        const fd = new FormData();
-        fd.append('name', name);
-        fd.append('email', email);
-        fd.append('phone', phone);
-        fd.append('message', `Web Dev Inquiry\nProject Type: ${type}\nFeatures: ${features}\nTimeline: ${timeline}\nBudget: ${budget}\nDetails: ${details}`);
-        fetch('https://formspree.io/f/mvzlezpg', {
-          method: 'POST',
-          body: fd,
-          headers: { 'Accept': 'application/json' }
-        })
-        .then(res => {
-          if (res.ok) {
-            alert('✅ Your web development inquiry has been sent via email! We will contact you shortly.');
-            closeModalFn();
-            document.getElementById('webDevForm').reset();
-          } else {
-            alert('❌ Failed to send. Please try again or use WhatsApp.');
-          }
-        })
-        .catch(() => alert('❌ Network error. Please try again later.'));
-      }
-    });
-
     // ---- Smooth scroll ----
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
@@ -1424,7 +1593,7 @@
       });
     });
 
-    // ---- PWA Service Worker ----
+    // ---- PWA service worker ----
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js')
